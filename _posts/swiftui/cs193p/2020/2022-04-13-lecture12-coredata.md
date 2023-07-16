@@ -89,7 +89,7 @@ A map looks something like this in the built-in editor in Xcode ...
 
 ![coredata_attributes_relationships](/assets/img/common/coredata_attributes_relationships.png)
 
-![coredata_relations](../2021/images/coredata_relations.png)
+![coredata_relations](/assets/img/common/coredata_relations.png)
 
 ## The Code
 

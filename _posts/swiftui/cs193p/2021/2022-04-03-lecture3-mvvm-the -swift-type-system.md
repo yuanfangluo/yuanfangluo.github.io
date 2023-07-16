@@ -70,9 +70,12 @@ We say it this way because users are essentially expressing their intentions to 
 And so we add functions to our ViewModel which allow the View to say, "Oh, the user just did something in my View, and by doing so she intends the following conceptual thing to happen in the Model: whatever."
 Then the ViewModel translates those intentions into specific modifications to the Model. 
 
-![](./images/mvvm.png)
+![](/assets/img/common/mvvm.png)
+
 # struct and class
+
 ## Both struct and class have ..,
+
 - stored vars
 - computed vars
 - constant lets
