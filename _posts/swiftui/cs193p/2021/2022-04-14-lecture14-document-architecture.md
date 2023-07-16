@@ -302,7 +302,7 @@ We give it a unique identifier using reverse DNS notation, e.g. `edu.standard.cs
 You descibe this custom identifier in your Project settings under the Info tab.
 
 Add an entry both under Exported Type Identifiers and Imported Type Identifiers ...
-![](./images/exported_type_identifiers.png)
+![](/assets/img/common/exported_type_identifiers.png)
 
 ## Document Types
 Once you've defined the UTType, you can say that you are the "Owner" of that type.
@@ -311,7 +311,7 @@ This is also done in the same place in Project Settings.
 
 This is also where you say what the file extension for this type of document is.
 
-![](./images/document_types.png)
+![](/assets/img/common/document_types.png)
 
 You'll also want to tell iOS that you're okay with people opening these with the Files app.
 
@@ -407,14 +407,14 @@ Then you get redo as well!
 Targets -> Info->
 
 - Exported Type Identifiers
-![](./images/exported_type_identifiers.png)
+![](/assets/img/common/exported_type_identifiers.png)
 - Imported Type Identifiers
-![](./images/exported_type_identifiers.png)
+![](/assets/img/common/exported_type_identifiers.png)
 - Document Types
-![](./images/document_types.png)
+![](/assets/img/common/document_types.png)
 
 ## Supports Document Browser
-![](./images/supports_document_browser.png)
+![](/assets/img/common/supports_document_browser.png)
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 

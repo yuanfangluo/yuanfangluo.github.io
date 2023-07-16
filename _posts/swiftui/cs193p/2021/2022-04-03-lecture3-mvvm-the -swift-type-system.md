@@ -17,6 +17,7 @@ categories: SwiftUI CS193p 2021
 - functions
 
 # MVVM
+
 ## Model-View-ViewModel
 A "code organizing" architecture design paradigm.
 
@@ -31,15 +32,15 @@ The ViewModel never stores the data for the Model inside of itself.
 The model is still the truth, it always is the truth.
 
 ## truth
+
 Because a lot of ViewModels create their own Model, a lot of times we say that the ViewModels are "the truth" in our app.
 
 But the ViewModel is just an intermediary that's passing the data along from the Model to the View, perhaps cleaning it up, or interpreting it as it flies by.
 
 But having this rule, that the View always this has to go through the ViewModel, puts the ViewModel in a great spot to help with this reactive mechanism we talked about that's so important to making all this work.
 
-
-
 ## How does it do that?
+
 - First a ViewModel is constantly noticing changes in the model. 
 Swift has the ablility to automatically track changes to a struct when we talk about the Swift type system. 
 If the Model were let's say something more complicated like a SQL database, it's quite easy to insert something into the database which notifies you when there are changes. Or if the Model were something on the network, then obviously there are ways to get woken up when data appears from the network, and the ViewModel could do that as well. 

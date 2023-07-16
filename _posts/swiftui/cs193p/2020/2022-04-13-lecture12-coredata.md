@@ -5,8 +5,11 @@ date:   2022-04-13 00:00:02 +0800
 categories: SwiftUI CS193p 2020
 ---
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 # Today
+
 ## Core Data
+
 Object-Oriented Database
 
 We've been doing a lot of functional programming.
@@ -16,6 +19,7 @@ But we're going to switch now to some simple object-oriented programming.
 Using the Core Data infrastructure to store/retrieve data in a database.
 
 ## SQL vs. OOP
+
 Very mature technology exists in the world to store large amounts of data efficiently.
 
 The most popular of which is likely SQL.
@@ -33,6 +37,7 @@ We don't need to know a single SQL statement to do it.
 And it all plugs beautifully into SwiftUI.
 
 ## Map
+
 The heart of Core Data is creating a map.
 
 It is a map between the objects/vars we want and "tables and rows" of a reational database.
@@ -42,6 +47,7 @@ Xcode has a built-in graphical editor for this map.
 It also lets us graphically create "relationships" (i.e. vars that point to other objects).
 
 ## Then what?
+
 Xcode will generate classes behind the scenes for the objects/vars we specified in the map.
 
 We can use extensions to add our own methods and computed vars to those classes.
@@ -49,6 +55,7 @@ We can use extensions to add our own methods and computed vars to those classes.
 These objects then serve as ViewModels for our UI.
 
 ## Features
+
 - Creating objects
 - Changing the values of their vars (including establishing relationships between objects)
 - Saving the objects
@@ -57,6 +64,7 @@ These objects then serve as ViewModels for our UI.
 Lots of database-y features like optimistic locking, undo management, etc.
 
 ## SwiftUI Integration
+
 The objects we create in the database are `ObservableObject`s
 
 And there is a very powerful property wrapper `@FetchRequest` which fetches objects for us.
@@ -66,6 +74,7 @@ And there is a very powerful property wrapper `@FetchRequest` which fetches obje
 This keeps our UI always in sync with what's happening in the database.
 
 ## The Setup
+
 Start by clicking the "Core Data" button when you create a New Project.
 
 This will add a blank "map" for you to your project.
@@ -75,12 +84,15 @@ Access your database via `@Environment(\.managedObjectContext)` in your SwiftUI 
 That's pretty much all the "setup" you need.
 
 ## The Map
+
 A map looks something like this in the built-in editor in Xcode ...
 
-![](../2021/images/coredata_attributes_relationships.png)
-![](../2021/images/coredata_relations.png)
+![coredata_attributes_relationships](/assets/img/common/coredata_attributes_relationships.png)
+
+![coredata_relations](../2021/images/coredata_relations.png)
 
 ## The Code
+
 ```swift
 @Environment(\.managedObjectContext) var context
 

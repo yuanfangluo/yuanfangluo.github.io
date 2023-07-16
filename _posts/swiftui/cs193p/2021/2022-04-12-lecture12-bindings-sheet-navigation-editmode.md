@@ -4,19 +4,22 @@ title:  "Lecture 12: Bindings Sheet Navigation EditMode"
 date:   2022-04-12 00:00:00 +0800
 categories: SwiftUI CS193p 2021
 ---
+
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
+
 # Today
+
 ## Property Wrappers
+
 - All those @ things.
 
 ## Learn by Demo
+
 - Very big demo today covering mostly topics related to presenting Views.
 - No concepts should be required to understand these, so we'll go straight to the demo!
 - As usual, these demos are just meant to introduce you to functionality in context.
 - You'll still need to read up in the documentation for the full story(ies).
 
-# Property Wrappers
-## Property Wrappers
 All of these @Something statements are property wrappers.
 
 A property wrapper is actually a struct.
@@ -24,6 +27,7 @@ A property wrapper is actually a struct.
 These structs encapsulate some "template" behavior applied to the vars they wrap.
 
 Examples ...
+
 - Making a var live in the heap (`@State`)
 - Making a var publish its changes (`@Published`)
 - Causing a View to redraw when a published change is detected (`@ObservedObject`)
@@ -31,6 +35,7 @@ Examples ...
 The property wrapper feature adds "syntactic sugar" to make these structs easy to create/use.
 
 ## Property Wrapper Syntactic Sugar
+
 ```swift
 @Published var emojiArt: EmojiArt = EmojiArt()
 // ... usi really just this struct ...
@@ -46,10 +51,14 @@ var emojiArt: EmojiArt {
     set { _emojiArt.wrappedValue = newValue}
 }
 ```
+
 You can access this `projectedValue` using `$`, e.g. `$emojiArt`, its type is `Publisher<EmojiArt, Never>`
+
 ## Why?
 Because , of course, the Wrapper struct does somthing on set/get of the wrappedValue.
+
 ## `@Published`
+
 ### So what does `Published` do when its wrappedValue is set (i.e. changes)?
 
 It publishes the change through its projectedValue (`$emojiArt`) which is a `Publisher`.
@@ -61,6 +70,7 @@ It also invokes `objectWillChange.send()` in its enclosing `ObservableObject`.
 Let's look at the actions and projected value of some other Property Wrappers we know ...
 
 ## `@State`
+
 The wrappedValue is: `any value type`.
 
 What it does: stores the wrappedValue in the heap; 
@@ -70,30 +80,37 @@ When it changes, invalidates the View.
 Projected value (i.e. $): a `Binding` (to that value in the heap).
 
 It's a bit tricky to initialize an `@State` in your View's init ...
+
 ```swift
 @State private var foo: Int
 init() {
     _foo = .init(initialValue: 5)
 }
 ```
+
 We don't initialize `@States` ini our inits very often but occasionally we might want to do that. (In fact, we initialze it when we declare it).
 
 ## `@StateObject`
+
 Like `@State`, but for `ObservableObjects` (aka ViewModels) instead of for value types.
 
 Behaves just like an `@ObservedObject var`, except ...
 
 An `@StateObject` is a "source of truth" (like `@State` is for View-local value types).
 Always create it with an initial value, e.g.
+
 ```swift
 @StateObject var foo = SomeObservableObject()
 ```
+
 An `@ObserverdObject` is not a sourth of truth (it's a reference to a source of truth).
 
-So you should never do 
+So you should never do
+
 ```swift
 @ObserverdObject var foo = SomeObservableObject()
 ```
+
 `@StateObject` can be used in a View or in an app or in a Scene (which we'll cover later).
 
 If in a View, the lifetime of the ViewModel will be tied to that of the View.
@@ -110,6 +127,7 @@ e.g. anytime you share a ViewModel with any other View that is not your child
 >Mostly we're going to, you'll see in the apps we're doing, we put all our `@StateObject` up in App and that top level MemorizeApp, EmojiArtApp, that's what we've been doing so far.
 
 ## `@StateObject` and `@ObservedObject`
+
 The wrappedValue is: `anything that implements the ObservableObject protocol` (ViewModels).
 
 What it does: invalidates the View when wrappedValue does `objectWillChange.send()`.
@@ -127,6 +145,7 @@ But be careful if you bind to something that can disappear out from under the Bi
 For example, if we shortened the stuff array to only have 2 items in it.
 
 ## `@Binding`
+
 The wrappedValue is: `a value that is bound to something else`.
 
 What it does: gets/sets the value of the wrappedValue from some other source.
@@ -144,7 +163,9 @@ So we can keep Binding to Binding, so Bindings perfectly lossless.
 We just keep on connecting to that original source.
 
 ## Where do we use `@Binding`s?
+
 All over the freaking place ...
+
 - Getting text out of a TextField, the choice out of a Picker, etc.
 - Using a Toggle or other state-modifying UI element.
 - Finding out which item in a NavigationView was chosen.
@@ -163,6 +184,7 @@ Instead, we would use a `@Binding` to the desired var in our ViewModel.
 Nor do we want two different `@State` vars in two different Views are storing the same thing.
 
 Instead one of the two @State vars would want to be a `@Binding` to the other.
+
 ```swift
 struct MyView: View {
 @State var myString = "Hello"
@@ -179,22 +201,29 @@ struct OtherView: View {
     }
 }
 ```
+
 OtherView's sharedText is bound to MyView's myString.
 
 Changing sharedText changes myString (and vice versa).
+
 ## Binding to a Constant Value
+
 You can create a Binding to a conatant value with `Binding.constant(value)`.
 
 These are useful, especially when you're setting up preview and things, your preview code to bind it to some constant value that will try out your UI.
 
 e.g. `OtherView(sharedText: .constant(Howdy))` will always show Howdy in OtherView.
+
 ## Computed Binding
+
 You can even create your own "computed Binding".
 
 We won't go into detail here, but check out `Binding(get:, set:)`.
 
 ## `@EnvironmentObject`
+
 Exactly the same as `@ObservedObject`, but passed to a View in a different way ...
+
 ```swift
 // @EnvironmentObject
 struct MyView {
@@ -209,6 +238,7 @@ struct MyView {
 }
 let myView = MyView(viewModel: theViewModel)
 ```
+
 Otherwise the code inside the Views would be the same.
 
 Biggest difference between the two?
@@ -228,6 +258,7 @@ what it does: invalidates the View when wrappedValue does `objectWillChange.send
 Projected value (i.e. `$`): a Binding to the vars of the wrappedValue ViewModel.
 
 ## `@Environment`
+
 Unrelated to `@EnvironmentObject`. Totally different thing.
 
 Property Wrappers can have yet more variables than wrappedValue and projectedValue.
@@ -257,6 +288,7 @@ So this is how you know whether your View is drawing in dark mode or light mode 
 ```swift
 view.environment(\.colorScheme, .dark)
 ```
+
 The wrappedvalue is: the `value of some var in EnvironmentValues`.
 
 What it does: gets a value of some var in `EnvironmentValues`.
@@ -280,6 +312,7 @@ if presentationMode.wrappedValue.isPresented {
 ```
 
 ## Demo Topics
+
 - .sheet
 - .popover
 - TextField
