@@ -2,11 +2,10 @@
 layout: post
 title:  "Lecture 12: CoreData"
 date:   2022-04-13 00:00:02 +0800
-categories: SwiftUI CS193p 2020
+categories: [SwiftUI, CS193p, 2020]
 ---
-[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-# Today
+[![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
 ## Core Data
 
@@ -14,7 +13,7 @@ Object-Oriented Database
 
 We've been doing a lot of functional programming.
 
-But we're going to switch now to some simple object-oriented programming. 
+But we're going to switch now to some simple object-oriented programming.
 
 Using the Core Data infrastructure to store/retrieve data in a database.
 
@@ -120,14 +119,19 @@ let flights = try? context.fetch(request) // KSJC flights in the past sorted by 
 
 // flights is nil if fetch failed, [] if no such flights, otherwise [Flight]
 ```
+
 ## SwiftUI
+
 Again, these Flights and Airports and such are ViewModels
+
 ```swift
 @ObservedObject var flight: Flight
 ```
+
 So you could esaily put a flight's ident on screen using `Text(flight.ident)`
 
 There's a very powerful property wrapper(`@FetchRequest`) to sync UI with the database ...
+
 ```swift
 @FetchRequest(
     entity: NSEntityDescription, 
@@ -137,6 +141,7 @@ private var flights: FetchedResults<Flight>
 @FetchRequest(fetchRequest: NSFetchRequest)
 var airports: FetchedResults<Airport>
 ```
+
 `FetchedResults<Flight>` is a Collection (not quite an Array) of Flight objects.
 
 `flights` and `airports` will continuously update as the database changes ...
@@ -146,11 +151,13 @@ ForEach(flights) { flight in
     // UI for a flight built using flight
 }
 ```
+
 If a flight is saved to the database that matches the fetch of the flights `FetchRequest` above then this `ForEach` would immediately create a `View` for it because `flights` would be updated.
 
 You can initializes a `FetchRequest` by doing `_flights = .init(...)` in an `init` (similar to what we showed for initializing an `@State` in an init)
 
 ## Demo
+
 A demo's worth thousands of words.
 
 Change Enroute to fetch the FlightAware data into Core Data.

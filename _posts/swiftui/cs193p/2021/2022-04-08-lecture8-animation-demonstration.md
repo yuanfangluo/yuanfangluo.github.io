@@ -4,15 +4,19 @@ title:  "Lecture 8: Animation Demonstration"
 date:   2022-04-08 00:00:00 +0800
 categories: SwiftUI CS193p 2021
 ---
+
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
-# Animation
+
 ## Explicit Animation
+
 ```swift
 withAnimation {
 
 }
 ```
+
 ## AnimatableModifier
+
 ```swift
 public protocol AnimatableModifier : Animatable, ViewModifier {
 
@@ -30,7 +34,9 @@ public protocol Shape : Animatable, View {
     func path(in rect: CGRect) -> Path
 }
 ```
+
 use get & set to rename `animatableData`.
+
 ```swift
 var animatableData: Double {
         get {rotation}
@@ -39,7 +45,9 @@ var animatableData: Double {
 
 var rotation: Double // in degrees
 ```
+
 ## transition
+
 `.transition(.scale)` & `withAnimation {}`
 
 `.transition(.scale.animation(.easeInOut(duration: 2)))`
@@ -47,6 +55,7 @@ var rotation: Double // in degrees
 above both OK.
 
 ## matchedGeometryEffect
+
 ```swift
 CardView(card: card)
 .matchedGeometryEffect(id: card.id, in: dealingNamespace)
@@ -54,7 +63,9 @@ CardView(card: card)
 CardView(card: $0)
 .matchedGeometryEffect(id: $0.id, in: dealingNamespace)
 ```
+
 ## Group
+
 ```swift
 Group {
     if card.isConsumingBonusTime {
@@ -72,4 +83,5 @@ Group {
 .padding(5)
 .opacity(0.5)
 ```
+
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)

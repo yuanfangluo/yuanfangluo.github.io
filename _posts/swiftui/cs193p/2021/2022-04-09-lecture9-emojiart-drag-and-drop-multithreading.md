@@ -4,29 +4,35 @@ title:  "Lecture 9: EmojiArt Drag and Drop Multithreading"
 date:   2022-04-09 00:00:00 +0800
 categories: SwiftUI CS193p 2021
 ---
+
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
-# Today
+
 ## Collections of Identifiable
 
 - We can add some functions to Collection protocols via extension that will help.
 
 ## Colors and Images
+
 - Color vs. UIColor
 - Image vs. UIImage
 
 ## Drag and Drop
+
 - How to transfer data directly between apps using drag gestures
 
 ## Demo
+
 - start EmojiArt:MVVM
 - Drag and drop of emoji into our EmojiArt-work
 
 ## Multithreaded Programming
+
 - Ensuring that my app is never "frozen"
 
-# Collections of Identifiables
 ## Dealing with Collections of Identifiables
+
 In memorize and in your Set application, we had to do things like this ...
+
 ```swift
 func choose(_ card: Card) {
      if let index = cards.firstIndex(where: { $0.id == card.id }) {
@@ -34,6 +40,7 @@ func choose(_ card: Card) {
      }
  }
 ```
+
 That's because Card is a struct, which is a value type.
 
 Value types get copied each time you pass them around as arguments and such.
@@ -45,12 +52,15 @@ Because that's where the copy of the cards in the game actually live.
 There are a couple of nice functions you can add via extension to make this easier ...
 
 We could make a function for `firstIndex(where:{ $0.id == card.id })` ...
+
 ```swift
 func index(matching element: Element) -> Int? {
      firstIndex(where: { $0.id == element.id }) {
 }
 ```
+
 Now we could have code like this ...
+
 ```swift
 func choose(_ card: Card) {
      if let index = cards.index(matching: card.id) {
@@ -58,6 +68,7 @@ func choose(_ card: Card) {
      }
  }
 ```
+
 But where to put this code?
 
 We could put it as an extension to Array ...
@@ -69,11 +80,13 @@ extension Array where Element: Identifiable {
     }
 }
 ```
+
 But index(matching:) would also be useful in Set (which may be quite useful in your A5).
 
 So we would need to add an extension to both Array and Set, or ...
 
 We could instead add index(matching:) to the Collection protocol ...
+
 ```swift
 extension Collection where Element: Identifiable {
     func index(matching element: Element) -> Self.Index? {
@@ -81,6 +94,7 @@ extension Collection where Element: Identifiable {
     }
 }
 ```
+
 Since both ASrray and Set conform to Collection, they'd both get `index(matchingz:)`.
 
 Note the return type, `Self.Index?`
@@ -92,6 +106,7 @@ Both Array and Set use Int (but String, for example, does not).
 By the way, String's Elements are always Characters (which are not Identifiable), so `index(matching:)` would not be implemented for a String (because of the where above).
 
 There are other functions we might want to add to handle Identifiables in a Collection.
+
 ```swift
 extension Collection where Element: Identifiable {
     mutating func remove(_ element: Element) {
@@ -101,6 +116,7 @@ extension Collection where Element: Identifiable {
     }
 }
 ```
+
 You can't extend the Collection protocol to do this remove func above!
 
 Because the Collection protocol is for immutable collections.
@@ -110,6 +126,7 @@ So it does not have remove(at:).
 The mutable Collection protocol is `RangeReplaceableCollection`.
 
 So we could extend `RangeReplaceableCollection` to add the Identifiable remove we want.
+
 ```swift
 extension RangeReplaceableCollection where Element: Identifiable {
     mutating func remove(_ element: Element) {
@@ -127,6 +144,7 @@ One other really cool thing we could add to `RangeReplaceableCollection` is `sub
 We could enable the subscript of an Array or Set of Identifiables to be an Identiable.
 
 The subscript would do nothing if we can't find something with that Identifiable's id.
+
 ```swift
 cards[card].isFaceUp = true
 
@@ -153,14 +171,17 @@ extension RangeReplaceableCollection where Element: Identifiable {
     }
 }
 ```
+
 If no card with card.id exists in cards, then this does nothing.
 
 Otherwise it changes the card in the cards Array that matches card's id to `isFaceUp = true`.
 
 The code for this is included in the EmojiArt demo code.
 
-# Color vs. UIColor vs. CGColor
+## Color vs. UIColor vs. CGColor
+
 ## Color
+
 What this symbol means in SwiftUI varies by context.
 
 1. Is a color-speifier, e.g., `.foregroundColor(Color.green)`.
@@ -170,6 +191,7 @@ What this symbol means in SwiftUI varies by context.
 3. Can also act like a View, e.g., `Color.white` can appear wherever a view can appear.
 
 ## UIColor
+
 Is used to manipulate colors.
 
 Also has many more built-in colors than Color, including "system-related" colors.
@@ -179,12 +201,15 @@ Can be interrogated and can convert between color spaces (RGB vs. HSB, etc.).
 Once you have desired `UIColor`, employ `Color(uiColor:)` to use it in one of the roles.
 
 ## CGColor
+
 The fundamental color representation in the Core Graphics drawing system.
 
 Color might be able to give a CGColor representation of itself (`color.CGColor` is optional).
 
-# Image vs. UIImage
+## Image vs. UIImage
+
 ## Image
+
 Primarily serves as a View.
 
 Is not a type for vars that hold an image (i.e. a jpeg or gif or some such). Tha's `UIImage`.
@@ -200,6 +225,7 @@ System images also are affected by the `.font` modifier.
 System images are also very useful as masks (for gradients, for example).
 
 ## UIImage
+
 Is the type for actually creating/manipulating images and storing in vars.
 
 Very powerful representation of an image.
@@ -209,11 +235,12 @@ Multiple file formats, transformation primitives, animated images, etc.
 Once you have the UIImage you want, use `Image(uiImage:)` to display it.
 
 >summit:
+
 1. If you want to have a variable that holds an image, it will be of type `UIImage`.
 2. If you want to have a View that draws an image, that's going to be the type `Image`.
 
-# Drag and Drop
 ## Item Provider
+
 We are going to see drag and drop code in action in demo today.
 
 The heart of drag and drop is the `NSItemProvider` class.
@@ -227,6 +254,7 @@ It's a little bit beyond the scope of this course.
 There is some code to help with getting data from an `NSItemProvider` in the EmojiArt demo.
 
 `NSItemProvider` can facilitate the transfer of a number of datatypes in iOS, for example:
+
 - `NSAttributedString` (a string with formatting) and `NSString`.
 - `NSURL`
 - `UIImage` and `UIColor`
@@ -237,15 +265,17 @@ So when we want to use `NSItemProvider`, we end up "bridging" Swift types to the
 
 We do this with "as", for example, `String as NSString`.
 
-# Demo
 ## EmojiArt
+
 - MVVM
 - fileprivate
 - enum with associated values
 - Drag and Drop
 
-# Multithreading
+## Multithreading
+
 ## Don't Block my UI
+
 It is never okay for a mobile application UI to be unrepsonsive to the user.
 
 But sometimes you need to do things that might take more than a few milliseconds.
@@ -259,6 +289,7 @@ How do we can keep our UI responsive when these long-lived tasks are going on?
 We execute them on a different "thread of execution" than the UI is excuting on.
 
 ## Threads
+
 Most modern operating systems(including iOS) let you specify a "thread of execution" to use.
 
 These threads appear to be all executing their code simultaneously.
@@ -270,7 +301,9 @@ But they might just be switching back and forth between them really quickly.
 With some of them getting higher priority run than others.
 
 You as a programmer can't tell the difference (and you don't want to know).
+
 ## Queues
+
 The challenge is to make multithreaded code authorable, readable, and understandable.
 
 This is because time adds a "fourth dimension" to our code.
@@ -284,6 +317,7 @@ You don't worry about the threads in Swift, you are concerned only with queues.
 The system takes care of providing/allocating threads to excute code off these queues.
 
 ## Queues and Closures
+
 We specify the blocks of code waiting in a queue using closures (aka functions as arguments).
 
 The core multithreading API is very simple: plop a cloure onto a queue.
@@ -304,7 +338,9 @@ The system uses a single thread to process all the blocks of code from the main 
 
 So it can also be used to synchronize.
 (e.g. to protect data structures by only mutating them on the main queue)
+
 ## Background Queues
+
 There are also a bunch of available "background queues".
 
 There are where we do any long-lived, non-UI tasks.
@@ -322,6 +358,7 @@ You do this by specifying a "quality of service" you desire for that queue.
 But the main queue will always be higher priority than any of the background queues.
 
 ## GCD
+
 The base API for doing all this queue stuff is called GCD (Grand Central Dispatch).
 
 It has a number of different functions in it, but there are two fundamental tasks ...
@@ -330,25 +367,33 @@ It has a number of different functions in it, but there are two fundamental task
 2. plopping a block of code on a queue
 
 ## Creating a Queue
+
 There are numerous ways to create a queue, but we're only going to look at two ...
+
 ```swift
 DispatchQueue.main // the queue where all UI code must be posted
 Dismpatch.global(qos: QoS) // a non-UI queue with a certain quality of service
 ```
+
 qos (quality of service) is one of the following ...
+
 ```swift
 .userInteractive // do this fast, the UI depends on it!
 .userInitiated // the user just asked to do this, so do it now
 .utility // this needs to happen, but the user didn't just ask for it
 .background // maintenance tasks(cleanups, etc.)
 ```
+
 ## Plopping a Closure onto a Queue
+
 There are two basic ways to add a closure to a queue ...
+
 ```swift
 let queue = DispatchQueue.main or DispatchQueue.global(qos:)
 queue.async { /* code to execute on queue */ }
 queue.sync { /* code to execute on queue */}
 ```
+
 The second one blocks waiting for that closure to be picked off by its queue and completed.
 
 Thus you would never call `.sync` in UI code.
@@ -368,9 +413,11 @@ Your code needs to be tolerant of that.
 There are also functions to have the queue wait fot a delay interval before executing.
 
 ## Nesting
+
 The beauty of this API is when you end up nesting.
 
 For example ...
+
 ```swift
 DispatchQueue(global: .userInitiated).async {
     // do something that might take a long time
@@ -383,6 +430,7 @@ DispatchQueue(global: .userInitiated).async {
     }
 }
 ```
+
 This alomost makes asynchronous code look synchronous. But it's still not.
 
 So be careful to think through what happens if long-time things take a really long time.
@@ -390,6 +438,7 @@ So be careful to think through what happens if long-time things take a really lo
 The world might have changed quite a bit during that time.
 
 ## Asynchronous API
+
 You will do `DispatchQueue.main.async {}` often when programming asynchronously in iOS.
 
 However, you won't do `DispatchQueue.global(qos:)` as much as you might think.
@@ -414,25 +463,19 @@ But that's just so you can see this "nesting" of GCD going on.
 
 In the real world, you'd use `URLSession` to fetch data from the internet.
 
-# Next Lecture
+## Next Lecture
+
 ## More EmojiArt
+
 - Dragging and dropping the background image
 - Multithreaded fetching of background image
 
 ## Gestures
+
 Tap, Pinch, Drag, etc.
 
 ## Yet More EmojiArt
+
 Using gestures to zoom in on and pan around in our EmojiArt-wrok
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
-
-
-
-
-
-
-
-
-
-

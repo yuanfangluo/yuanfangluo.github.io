@@ -7,8 +7,6 @@ categories: SwiftUI CS193p 2021
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-# Today
-
 ## Property Wrappers
 
 - All those @ things.
@@ -55,6 +53,7 @@ var emojiArt: EmojiArt {
 You can access this `projectedValue` using `$`, e.g. `$emojiArt`, its type is `Publisher<EmojiArt, Never>`
 
 ## Why?
+
 Because , of course, the Wrapper struct does somthing on set/get of the wrappedValue.
 
 ## `@Published`
@@ -73,7 +72,7 @@ Let's look at the actions and projected value of some other Property Wrappers we
 
 The wrappedValue is: `any value type`.
 
-What it does: stores the wrappedValue in the heap; 
+What it does: stores the wrappedValue in the heap;
 
 When it changes, invalidates the View.
 

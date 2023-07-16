@@ -2,7 +2,7 @@
 layout: post
 title:  "Lecture 11: Picker"
 date:   2022-04-13 00:00:01 +0800
-categories: SwiftUI CS193p 2020
+categories: [SwiftUI, CS193p, 2020]
 ---
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
