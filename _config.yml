@@ -18,7 +18,7 @@ timezone: Asia/Shanghai
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: 元芳 # the main title
+title: yuanfang # the main title
 
 tagline: fullstack software engineer, focus on Apple OS. # it will display as the sub-title
 
