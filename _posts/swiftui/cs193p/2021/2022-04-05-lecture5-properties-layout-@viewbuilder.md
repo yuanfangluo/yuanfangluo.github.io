@@ -2,7 +2,7 @@
 layout: post
 title:  "Lecture 5: Properties Layout @ViewBuilder"
 date:   2022-04-05 00:00:00 +0800
-categories: SwiftUI CS193p 2021
+categories: [SwiftUI, CS193p]
 ---
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=2089a0d80556&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
