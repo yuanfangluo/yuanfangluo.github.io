@@ -20,10 +20,10 @@ timezone: Asia/Shanghai
 
 title: 元芳 # the main title
 
-tagline: 元芳，你怎么看？ # it will display as the sub-title
+tagline: fullstack software engineer, focus on Apple OS. # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  Fullstack developer, focus on Apple OS.
+  Apple OS.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: "https://yuanfangluo.github.io"
