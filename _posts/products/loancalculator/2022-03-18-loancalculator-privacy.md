@@ -2,7 +2,7 @@
 layout: post
 title:  "极简分期服务协议与隐私政策"
 date:   2022-03-18 17:18:41 +0800
-categories: 极简分期 privacy
+categories: [极简分期, privacy]
 ---
 
 ## 极简分期服务协议与隐私政策
