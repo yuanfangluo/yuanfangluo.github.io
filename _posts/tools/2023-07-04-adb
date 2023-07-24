@@ -1,0 +1,66 @@
+---
+title: adb
+date: 2023-07-24 17:25:00 +0800
+tags: [adb, android]
+---
+## adb
+
+- 进入手机终端调试
+
+```sh
+adb shell
+```
+
+- 查看连接的设备
+
+```sh
+adb devices
+```
+
+- 退出手机终端
+
+```sh
+exit
+```
+
+- 重启手机
+
+```sh
+adb reboot
+```
+
+- 查看正在运行的包名
+
+```sh
+adb shell dumpsys window | findstr mCurrentFocus
+```
+
+我们可以查看到结果如下：
+
+```sh
+mCurrentFocus=Window{1e7fe89 u0 com.android.gpstest/com.android.gpstest.GpsTestActivity}
+```
+
+于是可以查到包名是`com.android.gpstest`，当前正在启动的activity是`com.android.gpstest.GpsTestActivity`。
+
+- 获取读写权限
+
+```sh
+adb remount
+```
+
+- 将手机文件拉到电脑
+
+```sh
+adb remount
+adb pull /手机目录 /电脑目录
+```
+
+- 将电脑文件推到手机
+
+```sh
+adb remount
+adb push 电脑文件 /手机目录
+pause
+adb reboot
+```
