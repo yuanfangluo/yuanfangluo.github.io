@@ -1,5 +1,5 @@
 ---
-title: 数学公式
+title: MarkDown数学公式
 date: 2023-07-19 17:44:00 +0800
 tags: [markdown]
 ---

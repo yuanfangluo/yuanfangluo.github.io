@@ -1,7 +1,7 @@
 ---
 title: Source Insight
 date: 2023-07-24 20:10:00 +0800
-tags: [Source Insight, Windows]
+tags: [sourceinsight, windows]
 ---
 ## 查看Java中接口对应的实现类
 
